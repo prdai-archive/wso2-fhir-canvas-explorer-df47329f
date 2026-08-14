@@ -51,6 +51,23 @@ budget — hence it ships on the main branch.
 3. If it does not: report upstream (pythonbridge should skip non-serializable internal
    metadata), and decide whether OpenMed masking replaces the budget or the budget stays.
 
+## Status (spike, `feat/openmed-pii-masking`)
+
+Vendored + documented. The stable-1.2.0 rebuild is set up (`build.yaml` → `1.2.0`)
+but **blocked by an environmental issue**: `ap gateway image build` pulls the 1.2.0
+base images fine, then `go mod download` for the policy gomodules **times out inside
+the builder container** (a different policy each run — it's connectivity, not a
+specific module). The host resolves the Go proxy fine; docker *build* containers
+don't get a working resolver in this moved-network state.
+
+Fix + resume: set docker daemon DNS (`/etc/docker/daemon.json` `"dns": ["8.8.8.8","1.1.1.1"]`)
+and restart docker — but that restarts k3d and the running demo, so do it deliberately
+— OR run the build on a healthy network. Then:
+`cd .../llm-proxy-pii-masking/gateway && HOME=$PWD/.apwork ap gateway image build --name pii-gateway`
+→ `k3d image import ghcr.io/wso2/api-platform/pii-gateway-gateway-runtime:1.2.0 -c openchoreo`
+→ swap the runtime Deployment image → re-inject the policy def into the controller's
+`default-policies` → attach `pii-masking-openmed` alongside `advanced-ratelimit` → test.
+
 ## Open questions
 
 - Where does the ~2GB custom runtime image live for reproducible deploys (registry)?
