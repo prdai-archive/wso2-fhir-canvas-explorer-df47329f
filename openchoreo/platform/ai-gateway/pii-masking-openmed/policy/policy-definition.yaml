@@ -1,0 +1,20 @@
+name: pii-masking-openmed
+version: v1.0.0
+displayName: PII Masking (OpenMed)
+description: |
+  Redacts the buffered request body in-process with an OpenMed
+  deidentification model — each detected entity becomes a delimited
+  placeholder — and forwards the redacted payload upstream. On the response
+  flow the same policy swaps the placeholders the LLM echoed back for the
+  original values (rejecting hallucinated or mangled ones), so the client
+  sees real data while the provider never does. No external service involved.
+
+parameters:
+  type: object
+  additionalProperties: false
+  properties: {}
+
+systemParameters:
+  type: object
+  additionalProperties: false
+  properties: {}

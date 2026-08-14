@@ -1,0 +1,6 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.13.0+cpu
+openmed[hf]>=1.9.1,<2.0.0
+# openmed.service.__init__ imports its FastAPI app, so importing
+# privacy_gateway needs fastapi present even though we never serve HTTP
+fastapi>=0.110.0,<1.0.0
