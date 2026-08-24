@@ -18,7 +18,9 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 // Per-IP cap, defense in depth behind nginx's tighter 6/min per-user chat limit
-// (openchoreo/nginx/workload.yaml). Each request spends up to 6 LLM tool-loop steps.
+// (demos/wso2-fhir-canvas-explorer/nginx/workload.yaml in the
+// wso2-oh-solutions-demo-usdc-infra-config repo). Each request spends up to 6
+// LLM tool-loop steps.
 const RATE_LIMIT = 10;
 const RATE_WINDOW_MS = 60_000;
 
